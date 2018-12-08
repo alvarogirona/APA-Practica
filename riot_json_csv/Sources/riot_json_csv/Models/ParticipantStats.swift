@@ -81,11 +81,11 @@ class ParticipantStats {
     var firstInhibitorKill: Bool!
     var firstInhibitorAssist: Bool!
     
-    var creepsPerMinDeltas: [Deltas]!
-    var xpPerMinDeltas: [Deltas]!
-    var goldPerMinDeltas: [Deltas]!
+    var creepsPerMinDeltas: [Deltas]! // Creep score difference versus the calculated lane opponent(s) for a specified period.
+    var xpPerMinDeltas: [Deltas]! // Experience change for a specified period.
+    var goldPerMinDeltas: [Deltas]! // Gold for a specified period.
     var csDiffPerMinDeltas: [Deltas]!
-    var xpDiffPerMinDeltas: [Deltas]!
+    var xpDiffPerMinDeltas: [Deltas]! // Experience difference versus the calculated lane opponent(s) for a specified period.
     var damageTakenPerMinDeltas: [Deltas]!
     var damageTakenDiffPerMinDeltas: [Deltas]!
     
