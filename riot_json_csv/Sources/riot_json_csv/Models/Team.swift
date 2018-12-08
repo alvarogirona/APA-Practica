@@ -8,6 +8,7 @@
 
 class Team {
     var win: Bool!
+    var teamId: Int!
     var firstBlood: Bool!
     var firstTower: Bool!
     var firstInhibitor: Bool!
