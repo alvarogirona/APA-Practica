@@ -34,8 +34,11 @@ class Team {
         firstDragon = json["firstDragon"].boolValue
         firstRiftHerald = json["firstRiftHerald"].boolValue
         towerKills = json["towerKills"].uIntValue
+        inhibitorKills = json["inhibitorKills"].uIntValue
         baronKills = json["baronKills"].uIntValue
         dragonKills = json["dragonKills"].uIntValue
         riftHeraldKills = json["riftHeraldKills"].uIntValue
+        
+        participants = [Participant]()
     }
 }

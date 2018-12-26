@@ -12,8 +12,7 @@ class Match {
     var gameCreation: UInt!
     var gameVersion: String!
     var mapId: UInt!
-    var participants: [Participant]!
-    var winner: Bool! // Which team won
+    var winner: Bool!
     
     var teams: [Team]!
     
@@ -23,7 +22,6 @@ class Match {
         gameVersion = json["gameVersion"].stringValue
         mapId = json["mapId"].uIntValue
         teams = [Team]()
-        participants = [Participant]()
         
         let teamsJson = json["teams"].arrayValue
         
@@ -32,11 +30,17 @@ class Match {
             teams.append(team)
         }
         
+        winner = teams[1].win // 0 means team 0 won, 1 means team 1 won
+        
         let participantsJson = json["participants"].arrayValue
         
         for participantJson in participantsJson {
             let participant = Participant(json: participantJson)
-            participants.append(participant)
+            if participant.teamId == 100 {
+                teams[0].participants.append(participant)
+            } else {
+                teams[1].participants.append(participant)
+            }
         }
     }
 }

@@ -11,11 +11,13 @@ import SwiftyJSON
 class Participant {
     var id: UInt!
     var championId: UInt!
+    var teamId: UInt!
     var stats: ParticipantStats!
     
     init (json: JSON) {
         id = json["id"].uIntValue
         championId = json["championId"].uIntValue
+        teamId = json["teamId"].uIntValue
         let statsJson = json["stats"]
         let timeLineJson = json["timeline"]
         stats = ParticipantStats(statsJson: statsJson, timeLineJson: timeLineJson)
