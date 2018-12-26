@@ -194,16 +194,16 @@ class JSONToCSV {
             
             
             let matchStr = """
-            \(match.winner!)\t
+            \(match.winner ? 0 : 1)\t
             
             \(match.teams[0].baronKills!)\t
-            \(match.teams[0].firstBaron!)\t
+            \(match.teams[0].firstBaron ? 0 : 1)\t
             \(match.teams[0].dragonKills!)\t
-            \(match.teams[0].firstDragon!)\t
-            \(match.teams[0].firstBlood!)\t
-            \(match.teams[0].firstInhibitor!)\t
-            \(match.teams[0].firstRiftHerald!)\t
-            \(match.teams[0].firstTower!)\t
+            \(match.teams[0].firstDragon ? 0 : 1)\t
+            \(match.teams[0].firstBlood ? 0 : 1)\t
+            \(match.teams[0].firstInhibitor ? 0 : 1)\t
+            \(match.teams[0].firstRiftHerald ? 0 : 1)\t
+            \(match.teams[0].firstTower ? 0 : 1)\t
             \(match.teams[0].inhibitorKills!)\t
             \(match.teams[0].riftHeraldKills!)\t
             
@@ -223,13 +223,13 @@ class JSONToCSV {
             \(team0DamageTakenDiffPerMinDeltas10to20)\t
             
             \(match.teams[1].baronKills!)\t
-            \(match.teams[1].firstBaron!)\t
+            \(match.teams[1].firstBaron ? 0 : 1)\t
             \(match.teams[1].dragonKills!)\t
-            \(match.teams[1].firstDragon!)\t
-            \(match.teams[1].firstBlood!)\t
-            \(match.teams[1].firstInhibitor!)\t
-            \(match.teams[1].firstRiftHerald!)\t
-            \(match.teams[1].firstTower!)\t
+            \(match.teams[1].firstDragon ? 0 : 1)\t
+            \(match.teams[1].firstBlood ? 0 : 1)\t
+            \(match.teams[1].firstInhibitor ? 0 : 1)\t
+            \(match.teams[1].firstRiftHerald ? 0 : 1)\t
+            \(match.teams[1].firstTower ? 0 : 1)\t
             \(match.teams[1].inhibitorKills!)\t
             \(match.teams[1].riftHeraldKills!)\t
             
@@ -246,7 +246,7 @@ class JSONToCSV {
             \(team1DamageTakenPerMinDeltas0to10)\t
             \(team1DamageTakenPerMinDeltas10to20)\t
             \(team1DamageTakenDiffPerMinDeltas0to10)\t
-            \(team1DamageTakenDiffPerMinDeltas10to20)\t
+            \(team1DamageTakenDiffPerMinDeltas10to20)
             """
             print(matchStr.replacingOccurrences(of: "\n", with: " "))
         }
