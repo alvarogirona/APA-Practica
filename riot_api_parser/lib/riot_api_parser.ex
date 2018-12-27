@@ -21,9 +21,10 @@ defmodule RiotApiParser.CLI do
     case parsed_args[:summoner] do
       nil ->
         IO.puts("You need to specify a summoner name to start looking for matches!")
-      _ ->
+      summoner ->
+        IO.puts(summoner)
         IO.puts("Starting crawler")
-        RiotApiParser.Crawler.start_crawler
+        RiotApiParser.Crawler.start_crawler(summoner)
     end
   end
 
