@@ -1,5 +1,5 @@
 {application,riot_api_parser,
-             [{applications,[kernel,stdlib,elixir,logger,jason,httpoison]},
+             [{applications,[kernel,stdlib,elixir,logger,httpoison,jason]},
               {description,"riot_api_parser"},
               {modules,['Elixir.RiotApiParser.CLI',
                         'Elixir.RiotApiParser.Crawler',
