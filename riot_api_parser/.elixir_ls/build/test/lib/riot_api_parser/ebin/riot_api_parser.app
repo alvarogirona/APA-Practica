@@ -3,6 +3,7 @@
               {description,"riot_api_parser"},
               {modules,['Elixir.RiotApiParser.CLI',
                         'Elixir.RiotApiParser.Crawler',
-                        'Elixir.RiotApiParser.MatchParser']},
+                        'Elixir.RiotApiParser.MatchParser',
+                        'Elixir.StateAgent']},
               {registered,[]},
               {vsn,"0.1.0"}]}.

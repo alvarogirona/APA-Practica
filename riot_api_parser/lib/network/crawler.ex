@@ -1,6 +1,6 @@
 defmodule RiotApiParser.Crawler do
-
   # Queue id for 5v5 ranked is 420
+  import StateAgent
 
   defp api_key do
     #System.get_env("API_KEY")
@@ -16,7 +16,7 @@ defmodule RiotApiParser.Crawler do
   end
 
   defp profile_url(summoner_name) do
-    api_base_url() <> "/summoner/v4/summoners/by-name/HoSoNg"
+    api_base_url() <> "/summoner/v4/summoners/by-name/#{summoner_name}"
   end
 
   defp match_list_url(account_id) do
@@ -28,15 +28,17 @@ defmodule RiotApiParser.Crawler do
   end
 
   def start_crawler(summoner_name) do
-    get_user_id(summoner_name)
+    {:ok, pid} = StateAgent.start_link
+    uri_encoded_name = :http_uri.encode(summoner_name)
+    get_user_id(uri_encoded_name, pid)
   end
 
-  defp get_user_id(summoner_name) do
+  defp get_user_id(summoner_name, state_pid) do
     HTTPoison.start()
     case HTTPoison.get(profile_url(summoner_name), headers()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         %{"accountId" => accountId} = Jason.decode!(body)
-        get_match_history(accountId)
+        get_match_history(accountId, state_pid)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -44,19 +46,31 @@ defmodule RiotApiParser.Crawler do
     end
   end
 
-  defp get_match_history(account_id) do
+  defp get_match_history(account_id, state_pid) do
     HTTPoison.start()
     case HTTPoison.get(match_list_url(account_id), headers()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         %{"matches" => matches} = Jason.decode!(body)
+        stored_matches = StateAgent.get(state_pid)
         Enum.each(matches, fn match ->
           %{"gameId" => matchId} = match
-          IO.puts(matchId)
-          log_results(matchId)
+          case Enum.member?(stored_matches, matchId) do
+            true ->
+              :ok
+            false ->
+              IO.puts(matchId)
+              StateAgent.push(state_pid, matchId)
+              log_results(matchId)
+          end
         end)
         for match <- matches do
           %{"gameId" => matchId} = match
-          spawn get_match_data(matchId, account_id)
+          case Enum.member?(stored_matches, matchId) do
+            true ->
+              IO.puts("Repeated match")
+            false ->
+              spawn get_match_data(matchId, account_id, state_pid)
+          end
         end
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
@@ -65,7 +79,7 @@ defmodule RiotApiParser.Crawler do
     end
   end
 
-  defp get_match_data(match_id, orig_account_id) do
+  defp get_match_data(match_id, orig_account_id, state_pid) do
     HTTPoison.start()
     case HTTPoison.get(match_url(match_id), headers()) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -73,7 +87,7 @@ defmodule RiotApiParser.Crawler do
         Enum.each(participants, fn participant ->
           %{"player" => %{"accountId" => accountId}} = participant
           if accountId != orig_account_id do
-            get_match_history(accountId)
+            get_match_history(accountId, state_pid)
           end
         end)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
