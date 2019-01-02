@@ -39,10 +39,13 @@ defmodule RiotApiParser.Crawler do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         %{"accountId" => accountId} = Jason.decode!(body)
         get_match_history(accountId, state_pid)
+
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
+
     end
   end
 
@@ -52,6 +55,7 @@ defmodule RiotApiParser.Crawler do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         %{"matches" => matches} = Jason.decode!(body)
         stored_matches = StateAgent.get(state_pid)
+
         Enum.each(matches, fn match ->
           %{"gameId" => matchId} = match
           case Enum.member?(stored_matches, matchId) do
@@ -63,7 +67,8 @@ defmodule RiotApiParser.Crawler do
               log_results(matchId)
           end
         end)
-        for match <- matches do
+
+        Enum.each(matches, fn match ->
           %{"gameId" => matchId} = match
           case Enum.member?(stored_matches, matchId) do
             true ->
@@ -71,11 +76,14 @@ defmodule RiotApiParser.Crawler do
             false ->
               spawn get_match_data(matchId, account_id, state_pid)
           end
-        end
+        end)
+
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
+
     end
   end
 
@@ -90,10 +98,13 @@ defmodule RiotApiParser.Crawler do
             get_match_history(accountId, state_pid)
           end
         end)
+
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
+
     end
   end
 
@@ -103,6 +114,7 @@ defmodule RiotApiParser.Crawler do
         IO.write(file, results)
         IO.write(file, "\n")
         File.close(file)
+
       _ ->
         IO.puts("Error opening file")
     end
