@@ -30,7 +30,10 @@ class JSONToCSV {
                 let json = JSON(data!)
                 match = Match(json: json)
                 fileHandle.seekToEndOfFile()
-                printMatchWithWinratesAndDeltas(match: match, winRates: winRates, fileHandle: fileHandle)
+                // We only want matches with more than 20 minutes
+                if (match.gameDuration/60 > 20) {
+                    printMatchWithWinratesAndDeltas(match: match, winRates: winRates, fileHandle: fileHandle)
+                }
                 match = nil
             }
             

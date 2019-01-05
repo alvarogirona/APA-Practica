@@ -15,12 +15,14 @@ class Match {
     var winner: Bool!
     
     var teams: [Team]!
+    var gameDuration: UInt
     
     init (json: JSON) {
         gameId = json["gameId"].uIntValue
         gameCreation = json["gameCreation"].uIntValue
         gameVersion = json["gameVersion"].stringValue
         mapId = json["mapId"].uIntValue
+        gameDuration = json["gameDuration"].uIntValue
         teams = [Team]()
         
         let teamsJson = json["teams"].arrayValue
