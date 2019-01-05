@@ -1,7 +1,5 @@
 defmodule RiotApiParser.Crawler do
   # Queue id for 5v5 ranked is 420
-  import StateAgent
-
   defp api_key do
     #System.get_env("API_KEY")
     "RGAPI-54c4d4e7-41ab-42c0-a60d-e8cea8c2b23a"
@@ -117,7 +115,8 @@ defmodule RiotApiParser.Crawler do
 
       _ ->
         IO.puts("Error opening file")
-    end
 
+    end
   end
+
 end

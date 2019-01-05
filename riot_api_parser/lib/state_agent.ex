@@ -11,14 +11,5 @@ defmodule StateAgent do
   def get(pid) do
     Agent.get pid, fn matches -> matches end
   end
-  # def loop(state \\ []) do
-  #   receive do
-  #     {:add, value} ->
-  #       state = [value | state]
 
-  #     {:get} ->
-  #       state
-  #   end
-  #   loop
-  # end
 end
