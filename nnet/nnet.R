@@ -25,6 +25,8 @@ set.seed(123)
 
 matches <- read.csv('20k_matches.csv', header = TRUE, sep = ',')
 matches$winner = as.factor(matches$winner)
+dataf <- as.data.frame(matches)
+colSums(is.na(matches))
 N <- nrow(matches)
 
 smp_size <- floor(0.75 * N)
@@ -50,7 +52,9 @@ predict_from_model(nnet.10, test)
 save(nnet.5, file = "nnet/nnet.10.regul")
 
 # 5 neurones
-nnet.5 <- train (winner ~., data = train, linout=FALSE, method='nnet', maxit = 500, trace = FALSE,tuneGrid = expand.grid(.size=5,.decay=0.1), trControl=trc)
+trc <- trainControl (method="repeatedcv", number=10, repeats=10)
+
+nnet.5 <- train (winner ~., data = train, linout=FALSE, method='nnet', maxit = 500, trace = FALSE,tuneGrid = expand.grid(.size=5,.decay=decays), trControl=trc)
 predict_from_model(nnet.5, test)
 save(nnet.5, file = "nnet/nnet.5.regul")
 
