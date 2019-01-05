@@ -7,6 +7,7 @@
 
 import Alamofire
 import SwiftyJSON
+import Foundation
 
 class NetworkController {
     func getData() {
@@ -16,14 +17,16 @@ class NetworkController {
                 let winRatesJson = JSON(parseJSON: str!)
                 let championsWinRates = ChampionsWinrates(json: winRatesJson)
              
-                Alamofire.request("https://s3-us-west-1.amazonaws.com/riot-developer-portal/seed-data/matches10.json").responseString { (response) in
-                    response.result.ifSuccess {
-                        let str = response.result.value
-                        let json = JSON(parseJSON: str!)
-                        let converter = JSONToCSV()
-                        converter.convert(json: json, winRates: championsWinRates)
-                    }
-                }
+                let converter = JSONToCSV()
+                converter.convertLocal(winRates: championsWinRates)
+//                Alamofire.request("https://127.0.0.1:8080/20k_matches.json").responseString { (response) in
+//                    response.result.ifSuccess {
+//                        let str = response.result.value
+//                        let json = JSON(parseJSON: str!)
+//                        let converter = JSONToCSV()
+//                        converter.convert(json: json, winRates: championsWinRates)
+//                    }
+//                }
             }
         }
     }

@@ -17,6 +17,255 @@ class JSONToCSV {
         exit(EXIT_SUCCESS)
     }
     
+    func convertLocal(winRates: ChampionsWinrates) {
+        let fileManager = FileManager.default
+        let documentsURL = try! fileManager.contentsOfDirectory(atPath: "/Users/alvaro/Documents/Uni/4o/APA/APA-Practica/data")
+        
+        var match: Match!
+        if let fileHandle = FileHandle(forWritingAtPath: "/Users/alvaro/Documents/Uni/4o/APA/APA-Practica/20k_matches.csv") {
+            printMatchesWinRatesDeltasHeaders(fileHandle: fileHandle)
+            
+            for file in documentsURL {
+                let data = fileManager.contents(atPath: "/Users/alvaro/Documents/Uni/4o/APA/APA-Practica/data/" + file)
+                let json = JSON(data!)
+                match = Match(json: json)
+                fileHandle.seekToEndOfFile()
+                printMatchWithWinratesAndDeltas(match: match, winRates: winRates, fileHandle: fileHandle)
+                match = nil
+            }
+            
+            fileHandle.closeFile()
+        }
+        exit(EXIT_SUCCESS)
+    }
+    
+    private func printMatchWithWinratesAndDeltas(match: Match, winRates: ChampionsWinrates, fileHandle: FileHandle) {
+        // MARK: TEAM 0 DELTAS
+        let team0creepsPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.creepsPerMinDeltas.from0to10
+        }
+        
+        let team0creepsPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.creepsPerMinDeltas.from10to20
+        }
+        
+        let team0XpPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpPerMinDeltas.from0to10
+        }
+        
+        let team0XpPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpPerMinDeltas.from10to20
+        }
+        
+        let team0GoldPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.goldPerMinDeltas.from0to10
+        }
+        
+        let team0GoldPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.goldPerMinDeltas.from10to20
+        }
+        
+        let team0CsDiffPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.csDiffPerMinDeltas.from0to10
+        }
+        
+        let team0CsDiffPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.csDiffPerMinDeltas.from10to20
+        }
+        
+        let team0XpDiffPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpDiffPerMinDeltas.from0to10
+        }
+        
+        let team0XpDiffPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpDiffPerMinDeltas.from10to20
+        }
+        
+        let team0DamageTakenPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenPerMinDeltas.from0to10
+        }
+        
+        let team0DamageTakenPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenPerMinDeltas.from10to20
+        }
+        
+        let team0DamageTakenDiffPerMinDeltas0to10 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenDiffPerMinDeltas.from0to10
+        }
+        
+        let team0DamageTakenDiffPerMinDeltas10to20 = match.teams[0].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenDiffPerMinDeltas.from10to20
+        }
+        
+        
+        // MARK: TEAM 1 DELTAS
+        let team1creepsPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.creepsPerMinDeltas.from0to10
+        }
+        
+        let team1creepsPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.creepsPerMinDeltas.from10to20
+        }
+        
+        let team1XpPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpPerMinDeltas.from0to10
+        }
+        
+        let team1XpPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpPerMinDeltas.from10to20
+        }
+        
+        let team1GoldPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.goldPerMinDeltas.from0to10
+        }
+        
+        let team1GoldPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.goldPerMinDeltas.from10to20
+        }
+        
+        let team1CsDiffPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.csDiffPerMinDeltas.from0to10
+        }
+        
+        let team1CsDiffPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.csDiffPerMinDeltas.from10to20
+        }
+        
+        let team1XpDiffPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpDiffPerMinDeltas.from0to10
+        }
+        
+        let team1XpDiffPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.xpDiffPerMinDeltas.from10to20
+        }
+        
+        let team1DamageTakenPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenPerMinDeltas.from0to10
+        }
+        
+        let team1DamageTakenPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenPerMinDeltas.from10to20
+        }
+        
+        let team1DamageTakenDiffPerMinDeltas0to10 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenDiffPerMinDeltas.from0to10
+        }
+        
+        let team1DamageTakenDiffPerMinDeltas10to20 = match.teams[1].participants.reduce(0.0) { (res, part) -> Double in
+            return res + part.stats.damageTakenDiffPerMinDeltas.from10to20
+        }
+        
+        
+        let matchStr = """
+        \(match.winner ? 0 : 1)\t
+        
+        \(team0creepsPerMinDeltas0to10)\t
+        \(team0creepsPerMinDeltas10to20)\t
+        \(team0XpPerMinDeltas0to10)\t
+        \(team0XpPerMinDeltas10to20)\t
+        \(team0GoldPerMinDeltas0to10)\t
+        \(team0GoldPerMinDeltas10to20)\t
+        \(team0CsDiffPerMinDeltas0to10)\t
+        \(team0CsDiffPerMinDeltas10to20)\t
+        \(team0XpDiffPerMinDeltas0to10)\t
+        \(team0XpDiffPerMinDeltas10to20)\t
+        \(team0DamageTakenPerMinDeltas0to10)\t
+        \(team0DamageTakenPerMinDeltas10to20)\t
+        \(team0DamageTakenDiffPerMinDeltas0to10)\t
+        \(team0DamageTakenDiffPerMinDeltas10to20)\t
+        
+        \(winRates.winRates[match.teams[0].participants[0].championId]!) \t
+        \(winRates.winRates[match.teams[0].participants[1].championId]!) \t
+        \(winRates.winRates[match.teams[0].participants[2].championId]!) \t
+        \(winRates.winRates[match.teams[0].participants[3].championId]!) \t
+        \(winRates.winRates[match.teams[0].participants[4].championId]!) \t
+        
+        \(team1creepsPerMinDeltas0to10)\t
+        \(team1creepsPerMinDeltas10to20)\t
+        \(team1XpPerMinDeltas0to10)\t
+        \(team1XpPerMinDeltas10to20)\t
+        \(team1GoldPerMinDeltas0to10)\t
+        \(team1GoldPerMinDeltas10to20)\t
+        \(team1CsDiffPerMinDeltas0to10)\t
+        \(team1CsDiffPerMinDeltas10to20)\t
+        \(team1XpDiffPerMinDeltas0to10)\t
+        \(team1XpDiffPerMinDeltas10to20)\t
+        \(team1DamageTakenPerMinDeltas0to10)\t
+        \(team1DamageTakenPerMinDeltas10to20)\t
+        \(team1DamageTakenDiffPerMinDeltas0to10)\t
+        \(team1DamageTakenDiffPerMinDeltas10to20)\t
+        
+        \(winRates.winRates[match.teams[1].participants[0].championId]!) \t
+        \(winRates.winRates[match.teams[1].participants[1].championId]!) \t
+        \(winRates.winRates[match.teams[1].participants[2].championId]!) \t
+        \(winRates.winRates[match.teams[1].participants[3].championId]!) \t
+        \(winRates.winRates[match.teams[1].participants[4].championId]!)
+        """
+        fileHandle.write(matchStr
+            .replacingOccurrences(of: "\n", with: " ")
+            .replacingOccurrences(of: "\t", with: ",")
+            .replacingOccurrences(of: " ", with: "")
+            .appending("\n")
+            .data(using: .utf8)!)
+
+        //print(matchStr.replacingOccurrences(of: "\n", with: " "))
+    }
+    
+    private func printMatchesWinRatesDeltasHeaders(fileHandle: FileHandle) {
+        let headers =   """
+        winner \t
+
+        t0_cs_min_0_10 \t
+        t0_cs_min_10_20 \t
+        t0_xp_min_0_10 \t
+        t0_xp_min_10_20 \t
+        t0_gold_min_0_10 \t
+        t0_gold_min_10_20 \t
+        t0_cs_diff_min_0_10 \t
+        t0_cs_diff_min_10_20 \t
+        t0_xp_diff_min_0_10 \t
+        t0_xp_diff_min_10_20 \t
+        t0_dmg_taken_min_0_10 \t
+        t0_dmg_taken_min_10_20 \t
+        t0_dmg_taken_diff_0_10 \t
+        t0_dmg_taken_diff_10_20 \t
+
+        t0_c0_wr \t
+        t0_c1_wr \t
+        t0_c2_wr \t
+        t0_c3_wr \t
+        t0_c4_wr \t
+
+        t1_cs_min_0_10 \t
+        t1_cs_min_10_20 \t
+        t1_xp_min_0_10 \t
+        t1_xp_min_10_20 \t
+        t1_gold_min_0_10 \t
+        t1_gold_min_10_20 \t
+        t1_cs_diff_min_0_10 \t
+        t1_cs_diff_min_10_20 \t
+        t1_xp_diff_min_0_10 \t
+        t1_xp_diff_min_10_20 \t
+        t1_dmg_taken_min_0_10 \t
+        t1_dmg_taken_min_10_20 \t
+        t1_dmg_taken_diff_0_10 \t
+        t1_dmg_taken_diff_10_20 \t
+
+        t1_c0_wr \t
+        t1_c1_wr \t
+        t1_c2_wr \t
+        t1_c3_wr \t
+        t1_c4_wr
+        """
+        
+        fileHandle.write(headers
+            .replacingOccurrences(of: "\t", with: ",")
+            .replacingOccurrences(of: "\n", with: "")
+            .replacingOccurrences(of: " ", with: "")
+            .appending("\n")
+            .data(using: .utf8)!)
+        //print(headers.replacingOccurrences(of: "\t", with: ",").replacingOccurrences(of: "\n", with: ""))
+    }
     
     func matchesWithWinratesAndDeltas(matches: [Match], winRates: ChampionsWinrates) {
         let headers =   """
@@ -65,7 +314,7 @@ class JSONToCSV {
         t1_c4_wr \t
         """
         
-        print(headers.replacingOccurrences(of: "\n", with: " "))
+        print(headers.replacingOccurrences(of: "\n", with: " ").replacingOccurrences(of: "\t", with: ","))
         for match in matches {
             
             // MARK: TEAM 0 DELTAS
