@@ -25,8 +25,6 @@ set.seed(123)
 
 matches <- read.csv('20k_matches.csv', header = TRUE, sep = ',')
 matches$winner = as.factor(matches$winner)
-dataf <- as.data.frame(matches)
-colSums(is.na(matches))
 N <- nrow(matches)
 
 # Normalitzar les dades
